@@ -1,5 +1,7 @@
 package com.example.tests;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
@@ -15,6 +17,11 @@ public class GroupCreationTests extends TestBase {
   public void testNonEmptyGroupCreation() throws Exception {
 	app.getNavigationHelper().openMainPage();
 	app.getNavigationHelper().gotoGroupsPage();
+	
+	// save old state
+	List<GroupData> oldList = app.getGroupHelper().getGroups();
+	
+	// actions
 	app.getGroupHelper().initGroupCreation();
     GroupData group = new GroupData();
     group.name = "group name 1";
@@ -23,15 +30,37 @@ public class GroupCreationTests extends TestBase {
     app.getGroupHelper().fillGroupForm(group);
     app.getGroupHelper().submitGroupCreation();
     app.getGroupHelper().returnToGroupsPage();
+    
+    // save new state
+    List<GroupData> newList = app.getGroupHelper().getGroups();
+    
+    // compare states
+    oldList.add(group);
+    Collections.sort(oldList);
+    assertEquals(newList, oldList);
   }
 
   @Test
   public void testEmptyGroupCreation() throws Exception {
-	app.getNavigationHelper().openMainPage();
-	app.getNavigationHelper().gotoGroupsPage();
-	app.getGroupHelper().initGroupCreation();
-	app.getGroupHelper().fillGroupForm(new GroupData("", "", ""));
-	app.getGroupHelper().submitGroupCreation();
-	app.getGroupHelper().returnToGroupsPage();
+	  app.getNavigationHelper().openMainPage();
+		app.getNavigationHelper().gotoGroupsPage();
+		
+		// save old state
+		List<GroupData> oldList = app.getGroupHelper().getGroups();
+		
+		// actions
+		app.getGroupHelper().initGroupCreation();
+	    GroupData group = new GroupData("", "", "");
+	    app.getGroupHelper().fillGroupForm(group);
+	    app.getGroupHelper().submitGroupCreation();
+	    app.getGroupHelper().returnToGroupsPage();
+	    
+	    // save new state
+	    List<GroupData> newList = app.getGroupHelper().getGroups();
+	    
+	    // compare states
+	    oldList.add(group);
+	    Collections.sort(oldList);
+	    assertEquals(newList, oldList);
   }
 }
