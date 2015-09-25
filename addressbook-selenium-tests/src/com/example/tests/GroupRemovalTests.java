@@ -2,6 +2,8 @@ package com.example.tests;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
@@ -15,15 +17,18 @@ public class GroupRemovalTests extends TestBase {
 	    // save old state
 	    List<GroupData> oldList = app.getGroupHelper().getGroups();
 	    
+	    Random rnd = new Random();
+	    int index = rnd.nextInt(oldList.size() - 1);
+
 	    // actions
-	    app.getGroupHelper().deleteGroup(0);
+	    app.getGroupHelper().deleteGroup(index);
 		app.getGroupHelper().returnToGroupsPage();
 		
 		// save new state
 		List<GroupData> newList = app.getGroupHelper().getGroups();
 		
 		// compare states
-		oldList.remove(0);
+		oldList.remove(index);
 		Collections.sort(oldList);
 		assertEquals(newList, oldList);
 	}

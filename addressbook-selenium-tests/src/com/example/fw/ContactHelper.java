@@ -62,8 +62,7 @@ public class ContactHelper extends HelperBase{
 		for (WebElement row : rows) {
 			ContactData contact = new ContactData();
 			contact.lastname = row.getText();
-			contacts.add(contact);
-			//System.out.println(contact.comparing);		
+			contacts.add(contact);		
 		}
 		return contacts;
 	}
